@@ -7,6 +7,6 @@
   },
   "devDependencies": {
     "oxc-walker": "^0.5.2",
-    "rolldown": "workspace:*"
+    "rolldown": "workspace:@rsvelte/rolldown@*"
   }
 }

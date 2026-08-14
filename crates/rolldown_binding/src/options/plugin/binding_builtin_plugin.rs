@@ -7,6 +7,7 @@ use rolldown_plugin_esm_external_require::EsmExternalRequirePlugin;
 use rolldown_plugin_isolated_declaration::IsolatedDeclarationPlugin;
 use rolldown_plugin_oxc_runtime::OxcRuntimePlugin;
 use rolldown_plugin_replace::ReplacePlugin;
+use rolldown_plugin_rsvelte::RsveltePlugin;
 use rolldown_plugin_vite_alias::ViteAliasPlugin;
 use rolldown_plugin_vite_build_import_analysis::ViteBuildImportAnalysisPlugin;
 use rolldown_plugin_vite_dynamic_import_vars::ViteDynamicImportVarsPlugin;
@@ -28,7 +29,7 @@ use crate::options::plugin::config::{
 
 use super::{
   config::{
-    BindingIsolatedDeclarationPluginConfig, BindingReplacePluginConfig,
+    BindingIsolatedDeclarationPluginConfig, BindingReplacePluginConfig, BindingRsveltePluginConfig,
     BindingViteAliasPluginConfig, BindingViteBuildImportAnalysisPluginConfig,
     BindingViteDynamicImportVarsPluginConfig, BindingViteImportGlobPluginConfig,
     BindingViteJsonPluginConfig, BindingViteManifestPluginConfig, BindingViteReporterPluginConfig,
@@ -90,6 +91,14 @@ impl TryFrom<BindingBuiltinPlugin<'_>> for Arc<dyn Pluginable> {
           BindingReplacePluginConfig::default()
         };
         Arc::new(ReplacePlugin::with_options(config.try_into()?)?)
+      }
+      BindingBuiltinPluginName::Rsvelte => {
+        let plugin = if let Some(options) = plugin.options {
+          BindingRsveltePluginConfig::from_unknown(options)?.try_into()?
+        } else {
+          RsveltePlugin::default()
+        };
+        Arc::new(plugin)
       }
       BindingBuiltinPluginName::ViteAlias => {
         let plugin = if let Some(options) = plugin.options {

@@ -6,6 +6,7 @@ use rolldown_common::SourceMapGenMsg;
 use rolldown_common::{
   ModuleIdx, ResolvedId, SourcemapChainElement, side_effects::HookSideEffects,
 };
+use rolldown_ecmascript::EcmaAst;
 use rolldown_plugin::PluginDriver;
 
 #[inline]
@@ -20,6 +21,7 @@ pub async fn transform_source(
   side_effects: &mut Option<HookSideEffects>,
   module_type: &mut ModuleType,
   magic_string_tx: Option<Sender<SourceMapGenMsg>>,
+  ast: &mut Option<EcmaAst>,
 ) -> Result<String> {
   plugin_driver
     .transform(
@@ -31,6 +33,7 @@ pub async fn transform_source(
       module_type,
       magic_string_tx,
       &mut None,
+      ast,
     )
     .await
 }

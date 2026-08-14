@@ -108,7 +108,7 @@ impl<Fs: FileSystem + Clone + 'static> ModuleTask<Fs> {
 
     let mut sourcemap_chain = vec![];
     let mut hook_side_effects = self.resolved_id.side_effects.take();
-    let (source, module_type) = self
+    let (source, module_type, ast) = self
       .load_source(&mut sourcemap_chain, &mut hook_side_effects, self.magic_string_tx.clone())
       .await?;
 
@@ -139,7 +139,7 @@ impl<Fs: FileSystem + Clone + 'static> ModuleTask<Fs> {
           is_user_defined_entry: self.is_user_defined_entry,
           flat_options: self.flat_options,
         },
-        CreateModuleViewArgs { source, sourcemap_chain, hook_side_effects },
+        CreateModuleViewArgs { source, ast, sourcemap_chain, hook_side_effects },
       )
       .await?;
 
@@ -249,7 +249,7 @@ impl<Fs: FileSystem + Clone + 'static> ModuleTask<Fs> {
     sourcemap_chain: &mut Vec<SourcemapChainElement>,
     hook_side_effects: &mut Option<rolldown_common::side_effects::HookSideEffects>,
     magic_string_tx: Option<std::sync::mpsc::Sender<SourceMapGenMsg>>,
-  ) -> BuildResult<(StrOrBytes, ModuleType)> {
+  ) -> BuildResult<(StrOrBytes, ModuleType, Option<rolldown_ecmascript::EcmaAst>)> {
     let mut is_read_from_disk = true;
     let result = load_source(
       &self.ctx.plugin_driver,
@@ -291,6 +291,7 @@ impl<Fs: FileSystem + Clone + 'static> ModuleTask<Fs> {
         )
       })
     })?;
+    let mut ast = None;
     let source = match source {
       _ if self.resolved_id.id.starts_with("rolldown:") => source,
       StrOrBytes::Str(source) => {
@@ -304,6 +305,7 @@ impl<Fs: FileSystem + Clone + 'static> ModuleTask<Fs> {
           hook_side_effects,
           &mut module_type,
           magic_string_tx,
+          &mut ast,
         )
         .await?;
         source.into()
@@ -319,6 +321,6 @@ impl<Fs: FileSystem + Clone + 'static> ModuleTask<Fs> {
         self.resolved_id.id
       ))?;
     }
-    Ok((source, module_type))
+    Ok((source, module_type, ast))
   }
 }

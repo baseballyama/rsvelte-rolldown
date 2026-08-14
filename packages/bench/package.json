@@ -25,7 +25,7 @@
     "chalk": "catalog:",
     "esbuild": "catalog:",
     "lodash-es": "catalog:",
-    "rolldown": "workspace:*",
+    "rolldown": "workspace:@rsvelte/rolldown@*",
     "rollup": "catalog:",
     "tinybench": "catalog:"
   }

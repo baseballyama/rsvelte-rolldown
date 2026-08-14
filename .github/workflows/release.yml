@@ -1,0 +1,178 @@
+name: Release
+
+on:
+  push:
+    branches: [rsvelte-rolldown]
+
+permissions: {}
+
+jobs:
+  registry-check:
+    name: Check npm bootstrap state
+    runs-on: ubuntu-latest
+    outputs:
+      exists: ${{ steps.package.outputs.exists }}
+    steps:
+      - id: package
+        name: Check @rsvelte/rolldown
+        run: |
+          if npm view @rsvelte/rolldown name >/dev/null 2>&1; then
+            echo 'exists=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'exists=false' >> "$GITHUB_OUTPUT"
+          fi
+
+  version-pr:
+    name: Version PR
+    needs: registry-check
+    if: "${{ !startsWith(github.event.head_commit.message, 'chore(release): version packages') }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+    concurrency:
+      group: release-version-pr-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Create or refresh Release Pull Request
+        uses: changesets/action@198f833dd7d863100ea6e28967bc9a9fdefadb0a # v2.1.0
+        with:
+          version-script: pnpm run version-packages
+          commit-message: 'chore(release): version packages'
+          pr-title: 'chore(release): version packages'
+
+  build:
+    name: Build release artifacts
+    needs: registry-check
+    if: >-
+      ${{ startsWith(github.event.head_commit.message, 'chore(release): version packages') ||
+          needs.registry-check.outputs.exists != 'true' }}
+    uses: ./.github/workflows/reusable-release-build.yml
+    with:
+      rsvelte_only: true
+
+  publish:
+    name: Publish npm packages
+    needs: build
+    if: "${{ startsWith(github.event.head_commit.message, 'chore(release): version packages') }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+    concurrency:
+      group: release-publish-${{ github.ref }}
+      cancel-in-progress: false
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          cache: pnpm
+
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Download binding artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          path: packages/rolldown/artifacts
+          pattern: bindings-*
+
+      - name: Assemble platform packages
+        run: |
+          pnpm --filter @rsvelte/rolldown exec napi create-npm-dirs
+          pnpm --filter @rsvelte/rolldown run artifacts
+
+      - name: Download Node package
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          path: packages/rolldown/dist
+          name: node-artifact
+
+      - name: Copy licenses
+        run: |
+          cp LICENSE THIRD-PARTY-LICENSE packages/rolldown/
+          find packages/rolldown/npm -mindepth 1 -maxdepth 1 -type d -exec cp LICENSE THIRD-PARTY-LICENSE {} \;
+
+      - name: Verify package tarballs
+        env:
+          NAPI_DRY_RUN: '1'
+        run: pnpm --filter @rsvelte/rolldown publish --tag latest --dry-run --no-git-checks
+
+      - name: Publish with npm trusted publishing
+        id: changesets
+        uses: changesets/action@198f833dd7d863100ea6e28967bc9a9fdefadb0a # v2.1.0
+        with:
+          publish-script: pnpm run release
+          commit-message: 'chore(release): version packages'
+          pr-title: 'chore(release): version packages'
+
+  compact-branch:
+    name: Restore one-commit integration branch
+    needs: publish
+    if: "${{ needs.publish.outputs.published == 'true' }}"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: release-compact-${{ github.ref }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Squash release metadata into the integration commit
+        env:
+          RELEASE_SHA: ${{ github.sha }}
+        run: |
+          VERSION=$(node -p "require('./packages/rolldown/package.json').version")
+          case "$VERSION" in
+            *-rsvelte.*) ;;
+            *) echo "Unexpected package version: $VERSION" >&2; exit 1 ;;
+          esac
+          BASE_TAG="v${VERSION%%-rsvelte.*}"
+          git fetch --no-tags https://github.com/rolldown/rolldown.git \
+            "refs/tags/$BASE_TAG:refs/tags/$BASE_TAG"
+          git rev-parse --verify "$BASE_TAG^{commit}"
+          git merge-base --is-ancestor "$BASE_TAG" HEAD
+
+          REMOTE_SHA=$(git ls-remote origin refs/heads/rsvelte-rolldown | awk '{print $1}')
+          if [ "$REMOTE_SHA" != "$RELEASE_SHA" ]; then
+            echo "Branch moved during release: expected $RELEASE_SHA, found $REMOTE_SHA" >&2
+            exit 1
+          fi
+
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git reset --soft "$BASE_TAG"
+          git commit -m 'feat: integrate rsvelte through native Rolldown ASTs'
+          git push \
+            --force-with-lease=refs/heads/rsvelte-rolldown:"$RELEASE_SHA" \
+            origin HEAD:rsvelte-rolldown

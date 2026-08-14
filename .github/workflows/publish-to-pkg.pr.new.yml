@@ -83,10 +83,10 @@ jobs:
           pattern: bindings-*
 
       - name: Create rolldown/npm dirs
-        run: vp exec --filter rolldown napi create-npm-dirs
+        run: vp exec --filter @rsvelte/rolldown napi create-npm-dirs
 
       - name: Move Binding Artifacts
-        run: vp run --filter rolldown artifacts
+        run: vp run --filter @rsvelte/rolldown artifacts
 
       - name: List Rolldown Bindings
         run: ls -R ./packages/rolldown/npm
@@ -122,7 +122,7 @@ jobs:
         run: |
           ROLLDOWN_VERSION=$(cat rolldown-version.txt)
           node --import @oxc-node/core/register ./scripts/misc/bump-version.js ${ROLLDOWN_VERSION}
-          vp run --filter rolldown prepublishOnly --skip-optional-publish
+          vp run --filter @rsvelte/rolldown prepublishOnly --skip-optional-publish
 
       - name: Copy Licenses
         run: |

@@ -11,6 +11,7 @@ import type {
   BindingInjectImportNamed,
   BindingInjectImportNamespace,
   BindingInputOptions,
+  BindingRsveltePluginConfig,
 } from '../binding.cjs';
 import { bindingifyManifestPlugin, BuiltinPlugin } from '../builtin-plugin/utils';
 import { bindingifyBuiltInPlugin } from '../builtin-plugin/utils';
@@ -60,6 +61,15 @@ export function bindingifyInputOptions(
           return bindingifyBuiltInPlugin(plugin);
       }
     }
+    const jsPlugin = plugin as Plugin & {
+      __rsvelteNativeOptions?: BindingRsveltePluginConfig & { enabled?: boolean };
+    };
+    const nativeOptions = jsPlugin.__rsvelteNativeOptions;
+    if (jsPlugin.name === 'vite-plugin-svelte:native-compile' && nativeOptions?.enabled) {
+      const options = { ...nativeOptions };
+      delete options.enabled;
+      return bindingifyBuiltInPlugin(new BuiltinPlugin('builtin:rsvelte', options));
+    }
     return bindingifyPlugin(
       plugin as Plugin,
       inputOptions,
@@ -72,6 +82,16 @@ export function bindingifyInputOptions(
       timings,
     );
   });
+
+  const hasConfiguredRsvelte = rawPlugins.some((plugin) => {
+    if (plugin instanceof BuiltinPlugin) return plugin.name === 'builtin:rsvelte';
+    if (getParallelPluginInfo(plugin)) return false;
+    const name = (plugin as Plugin).name;
+    return name === 'vite-plugin-svelte:native-compile' || name === 'vite-plugin-svelte:compile';
+  });
+  if (!hasConfiguredRsvelte) {
+    plugins.unshift(bindingifyBuiltInPlugin(new BuiltinPlugin('builtin:rsvelte')));
+  }
 
   // Normalize transform options to extract define, inject, and oxc transform options
   const normalizedTransform = normalizeTransformOptions(inputOptions);

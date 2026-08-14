@@ -80,6 +80,7 @@ impl<Fs: FileSystem + Clone + 'static> RuntimeModuleTask<Fs> {
     let mut side_effects: Option<HookSideEffects> = None;
     let mut module_type = ModuleType::Js;
     let mut code_changed_by_plugins: Option<Vec<String>> = Some(vec![]);
+    let mut transformed_ast = None;
 
     let source: ArcStr = self
       .ctx
@@ -93,6 +94,7 @@ impl<Fs: FileSystem + Clone + 'static> RuntimeModuleTask<Fs> {
         &mut module_type,
         None,
         &mut code_changed_by_plugins,
+        &mut transformed_ast,
       )
       .await?
       .into();

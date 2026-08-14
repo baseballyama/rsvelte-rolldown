@@ -1,1 +1,1 @@
-export * from '@rolldown/binding-wasm32-wasi'
+export * from '@rsvelte/rolldown-binding-wasm32-wasi'

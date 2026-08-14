@@ -95,6 +95,9 @@ jobs:
     steps:
       - uses: taiki-e/checkout-action@7d1e50e93dc4fb3bba58f85018fadf77898aee8b # v1.4.2
 
+      - name: Checkout rsvelte
+        run: git submodule update --init --depth 1 vendor/rsvelte
+
       - name: Setup Rust
         uses: oxc-project/setup-rust@3d6fb132fbe7cdcb66bf8ec193911c2945369d12 # v1.0.17
         with:
@@ -340,6 +343,9 @@ jobs:
     steps:
       - uses: taiki-e/checkout-action@7d1e50e93dc4fb3bba58f85018fadf77898aee8b # v1.4.2
 
+      - name: Checkout rsvelte
+        run: git submodule update --init --depth 1 vendor/rsvelte
+
       - name: Setup Rust
         uses: oxc-project/setup-rust@3d6fb132fbe7cdcb66bf8ec193911c2945369d12 # v1.0.17
         with:
@@ -393,6 +399,9 @@ jobs:
     runs-on: namespace-profile-linux-x64-default
     steps:
       - uses: taiki-e/checkout-action@7d1e50e93dc4fb3bba58f85018fadf77898aee8b # v1.4.2
+
+      - name: Checkout rsvelte
+        run: git submodule update --init --depth 1 vendor/rsvelte
 
       - name: Setup Rust
         uses: oxc-project/setup-rust@3d6fb132fbe7cdcb66bf8ec193911c2945369d12 # v1.0.17

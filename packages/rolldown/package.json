@@ -1,20 +1,22 @@
 {
-  "name": "rolldown",
-  "version": "1.2.4",
-  "description": "Fast JavaScript/TypeScript bundler in Rust with Rollup-compatible API.",
+  "name": "@rsvelte/rolldown",
+  "version": "1.2.4-rsvelte.0",
+  "description": "Rolldown with native rsvelte compilation and direct OXC AST integration.",
   "keywords": [
     "bundler",
     "esbuild",
     "parcel",
     "rolldown",
     "rollup",
+    "rsvelte",
+    "svelte",
     "webpack"
   ],
-  "homepage": "https://rolldown.rs/",
+  "homepage": "https://github.com/baseballyama/rsvelte-rolldown",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rolldown/rolldown.git",
+    "url": "git+https://github.com/baseballyama/rsvelte-rolldown.git",
     "directory": "packages/rolldown"
   },
   "bin": {
@@ -149,7 +151,7 @@
     "oxc-parser": "catalog:",
     "pathe": "catalog:",
     "remeda": "catalog:",
-    "rolldown": "workspace:*",
+    "rolldown": "workspace:@rsvelte/rolldown@*",
     "rolldown-plugin-dts": "catalog:",
     "rollup": "catalog:",
     "signal-exit": "catalog:",
@@ -160,7 +162,7 @@
   "napi": {
     "binaryName": "rolldown-binding",
     "dtsHeader": "type MaybePromise<T> = T | Promise<T>\ntype Nullable<T> = T | null | undefined\ntype VoidNullable<T = void> = T | null | undefined | void\nexport type BindingStringOrRegex = string | RegExp\nexport type BindingResult<T> = { errors: BindingError[], isBindingErrors: boolean } | T\n\n",
-    "packageName": "@rolldown/binding",
+    "packageName": "@rsvelte/rolldown-binding",
     "targets": [
       "x86_64-apple-darwin",
       "x86_64-pc-windows-msvc",

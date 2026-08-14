@@ -8,6 +8,10 @@ on:
       version: # Should be valid semver or 'patch', 'minor', 'major', 'commit'. See scripts/misc/bump-version.js for details.
         type: string
         default: 'noop'
+      rsvelte_only:
+        description: Build only the @rsvelte/rolldown packages used by this fork.
+        type: boolean
+        default: false
 
 jobs:
   build-binding:
@@ -72,12 +76,15 @@ jobs:
           - os: ubuntu-latest
             target: wasm32-wasip1-threads
             build: |
-              vp run --filter rolldown build-binding:wasi:release
+              vp run --filter @rsvelte/rolldown build-binding:wasi:release
 
     name: Build ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
     steps:
       - uses: taiki-e/checkout-action@7d1e50e93dc4fb3bba58f85018fadf77898aee8b # v1.4.2
+
+      - name: Checkout rsvelte
+        run: git submodule update --init --depth 1 vendor/rsvelte
 
       - name: Setup Rust
         uses: oxc-project/setup-rust@3d6fb132fbe7cdcb66bf8ec193911c2945369d12 # v1.0.17
@@ -130,6 +137,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: taiki-e/checkout-action@7d1e50e93dc4fb3bba58f85018fadf77898aee8b # v1.4.2
+      - name: Checkout rsvelte
+        run: git submodule update --init --depth 1 vendor/rsvelte
       - name: Build
         id: build
         uses: cross-platform-actions/action@5ea7e8e4677bd726033a10b094ba1c5762b15dee # v1.3.0
@@ -174,11 +183,14 @@ jobs:
     strategy:
       fail-fast: false
     name: Build Node Package
-    runs-on: namespace-profile-linux-x64-default
+    runs-on: ubuntu-latest
     env:
       RELEASING: 'true'
     steps:
       - uses: taiki-e/checkout-action@7d1e50e93dc4fb3bba58f85018fadf77898aee8b # v1.4.2
+
+      - name: Checkout rsvelte
+        run: git submodule update --init --depth 1 vendor/rsvelte
 
       - uses: voidzero-dev/setup-vp@313600b80b104eadebb9111787d37a2e83e014ca # v1.17.0
         with:
@@ -187,7 +199,7 @@ jobs:
 
       - name: Build Node binding
         # This binary is only used to build the node package itself. It's won't be published.
-        run: vp run --filter rolldown build-binding
+        run: vp run --filter @rsvelte/rolldown build-binding
 
       - name: Determine Version
         if: ${{ inputs.version != 'noop' }}
@@ -197,7 +209,7 @@ jobs:
 
       - name: Build Node Packages
         # Binaries are built in the previous steps. Unlike in local development, we only need to build the node package itself.
-        run: vp run --filter rolldown build-node
+        run: vp run --filter @rsvelte/rolldown build-node
 
       - name: Upload Node Artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -216,12 +228,16 @@ jobs:
             rolldown-version.txt
 
   build-rolldown-browser:
+    if: ${{ !inputs.rsvelte_only }}
     strategy:
       fail-fast: false
     name: Build `@rolldown/browser` Package
-    runs-on: namespace-profile-linux-x64-default
+    runs-on: ubuntu-latest
     steps:
       - uses: taiki-e/checkout-action@7d1e50e93dc4fb3bba58f85018fadf77898aee8b # v1.4.2
+
+      - name: Checkout rsvelte
+        run: git submodule update --init --depth 1 vendor/rsvelte
 
       - name: Setup Rust
         uses: oxc-project/setup-rust@3d6fb132fbe7cdcb66bf8ec193911c2945369d12 # v1.0.17
@@ -240,7 +256,7 @@ jobs:
 
       - name: Build Node binding
         # This binary is only used to build the node package itself. It's won't be published.
-        run: vp run --filter rolldown build-binding
+        run: vp run --filter @rsvelte/rolldown build-binding
 
       - name: Determine Version
         if: ${{ inputs.version != 'noop' }}
@@ -261,10 +277,11 @@ jobs:
             packages/browser/dist/**
 
   build-rolldown-debug:
+    if: ${{ !inputs.rsvelte_only }}
     strategy:
       fail-fast: false
     name: Build `@rolldown/debug` Package
-    runs-on: namespace-profile-linux-x64-default
+    runs-on: ubuntu-latest
     steps:
       - uses: taiki-e/checkout-action@7d1e50e93dc4fb3bba58f85018fadf77898aee8b # v1.4.2
 

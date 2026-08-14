@@ -128,14 +128,14 @@ const __wasmDebugFilePath = __nodePath.join(__dirname, 'rolldown-binding.wasm32-
 if (__nodeFs.existsSync(__wasmDebugFilePath)) {
   __wasmFilePath = __wasmDebugFilePath
 } else if (!__nodeFs.existsSync(__wasmFilePath)) {
-  const __wasiPackageEntry = require.resolve('@rolldown/binding-wasm32-wasi')
+  const __wasiPackageEntry = require.resolve('@rsvelte/rolldown-binding-wasm32-wasi')
   const __packagedWasmFilePath = __nodePath.join(
     __nodePath.dirname(__wasiPackageEntry),
     'rolldown-binding.wasm32-wasi.wasm',
   )
   if (!__nodeFs.existsSync(__packagedWasmFilePath)) {
     throw new Error(
-      '@rolldown/binding-wasm32-wasi is installed but is missing rolldown-binding.wasm32-wasi.wasm.',
+      '@rsvelte/rolldown-binding-wasm32-wasi is installed but is missing rolldown-binding.wasm32-wasi.wasm.',
     )
   }
   __wasmFilePath = __packagedWasmFilePath

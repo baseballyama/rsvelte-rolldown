@@ -11,6 +11,8 @@ pub enum BindingBuiltinPluginName {
   IsolatedDeclaration,
   #[napi(value = "builtin:replace")]
   Replace,
+  #[napi(value = "builtin:rsvelte")]
+  Rsvelte,
   #[napi(value = "builtin:vite-alias")]
   ViteAlias,
   #[napi(value = "builtin:vite-build-import-analysis")]

@@ -16,6 +16,7 @@ use rolldown_common::{
   SourcemapChainElement, side_effects::HookSideEffects,
 };
 use rolldown_devtools::{action, trace_action};
+use rolldown_ecmascript::EcmaAst;
 use rolldown_error::CausedPlugin;
 use rolldown_sourcemap::SourceMap;
 use rolldown_utils::{IndexBitSet, unique_arc::UniqueArc};
@@ -286,6 +287,7 @@ impl PluginDriver {
     module_type: &mut ModuleType,
     magic_string_tx: Option<std::sync::mpsc::Sender<rolldown_common::SourceMapGenMsg>>,
     code_changed_by_plugins: &mut Option<Vec<String>>,
+    ast: &mut Option<EcmaAst>,
   ) -> Result<String> {
     let mut code = original_code;
     let mut code_arc: Option<ArcStr> = None;
@@ -327,7 +329,7 @@ impl PluginDriver {
           &HookTransformArgs { id, code: code_arc_ref, module_type: &*module_type },
         )
         .await;
-      if let Some(r) = result.with_context(|| CausedPlugin::new(plugin.call_name()))? {
+      if let Some(mut r) = result.with_context(|| CausedPlugin::new(plugin.call_name()))? {
         original_sourcemap_chain = plugin_sourcemap_chain.into_inner();
         let map_was_omitted = matches!(r.map, crate::HookTransformOutputMap::Omitted);
         let map_was_null = matches!(r.map, crate::HookTransformOutputMap::Null);
@@ -350,13 +352,18 @@ impl PluginDriver {
         if let Some(v) = r.side_effects {
           *side_effects = Some(v);
         }
-        if let Some(v) = r.code {
+        let output_code = r.code.take();
+        if let Some(v) = output_code {
+          let code_changed = v != code;
           if let Some(changed_by) = code_changed_by_plugins {
-            if v != code {
+            if code_changed {
               changed_by.push(plugin.call_name().to_string());
             }
           }
           code = v;
+          if code_changed || r.ast.is_some() {
+            *ast = r.ast.take();
+          }
           code_arc = None;
           trace_action!(action::HookTransformCallEnd {
             action: "HookTransformCallEnd",
@@ -366,6 +373,8 @@ impl PluginDriver {
             plugin_id: plugin_idx.raw(),
             call_id: call_id.unwrap_or_default()
           });
+        } else if r.ast.is_some() {
+          *ast = r.ast;
         }
         if let Some(ty) = r.module_type {
           *module_type = ty;

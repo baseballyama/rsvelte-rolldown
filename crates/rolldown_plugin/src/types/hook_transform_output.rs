@@ -1,5 +1,6 @@
 use rolldown_common::ModuleType;
 use rolldown_common::side_effects::HookSideEffects;
+use rolldown_ecmascript::EcmaAst;
 use rolldown_sourcemap::SourceMap;
 
 /// The sourcemap returned by a `transform` or `renderChunk` plugin's `map` field.
@@ -42,6 +43,9 @@ impl From<SourceMap> for HookTransformOutputMap {
 #[derive(Debug, Default)]
 pub struct HookTransformOutput {
   pub code: Option<String>,
+  /// A native AST for `code`. A later transform that replaces `code` without
+  /// supplying an AST invalidates this value.
+  pub ast: Option<EcmaAst>,
   pub map: HookTransformOutputMap,
   pub side_effects: Option<HookSideEffects>,
   pub module_type: Option<ModuleType>,

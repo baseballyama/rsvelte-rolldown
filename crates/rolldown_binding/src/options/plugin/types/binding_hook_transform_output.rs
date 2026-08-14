@@ -32,6 +32,7 @@ impl TryFrom<BindingHookTransformOutput> for HookTransformOutput {
     };
     Ok(Self {
       code: value.code,
+      ast: None,
       map,
       side_effects: value.module_side_effects.map(TryInto::try_into).transpose()?,
       module_type: value.module_type.map(|ty| ModuleType::from_str_with_fallback(ty.as_str())),
@@ -41,16 +42,17 @@ impl TryFrom<BindingHookTransformOutput> for HookTransformOutput {
 
 impl From<HookTransformOutput> for BindingHookTransformOutput {
   fn from(value: HookTransformOutput) -> Self {
-    let map = match value.map {
+    let HookTransformOutput { code, ast: _, map, side_effects, module_type } = value;
+    let map = match map {
       HookTransformOutputMap::Sourcemap(map) => Some(Either::A(map.to_json().into())),
       HookTransformOutputMap::Null => Some(Either::B(Null)),
       HookTransformOutputMap::Omitted => None,
     };
     Self {
-      code: value.code,
+      code,
       map,
-      module_side_effects: value.side_effects.map(Into::into),
-      module_type: value.module_type.map(|v| v.to_string()),
+      module_side_effects: side_effects.map(Into::into),
+      module_type: module_type.map(|v| v.to_string()),
     }
   }
 }

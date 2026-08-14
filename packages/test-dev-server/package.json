@@ -22,7 +22,7 @@
   "dependencies": {
     "@types/ws": "catalog:",
     "connect": "catalog:",
-    "rolldown": "workspace:*",
+    "rolldown": "workspace:@rsvelte/rolldown@*",
     "serve-static": "catalog:",
     "ws": "catalog:"
   },

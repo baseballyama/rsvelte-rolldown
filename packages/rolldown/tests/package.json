@@ -24,7 +24,7 @@
     "test:types": "vitest run --typecheck.only --reporter verbose --hideSkippedTests"
   },
   "dependencies": {
-    "rolldown": "workspace:*",
+    "rolldown": "workspace:@rsvelte/rolldown@*",
     "vite": "catalog:",
     "vitest": "catalog:"
   },

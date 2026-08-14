@@ -192,15 +192,15 @@ build-rolldown-debug:
 
 # Only build `rolldown` located in `packages/rolldown` itself without triggering building binding `crates/rolldown_binding`.
 build-glue:
-  vp run --filter rolldown build-js-glue
+  vp run --filter @rsvelte/rolldown build-js-glue
 
 # Only build `.node` binding located in `packages/rolldown`.
 build-rolldown-binding:
-  vp run --filter rolldown build-binding
+  vp run --filter @rsvelte/rolldown build-binding
 
 # Build `rolldown` located in `packages/rolldown` itself and its `.node` binding.
 build-rolldown:
-  vp run --filter rolldown build-native:debug
+  vp run --filter @rsvelte/rolldown build-native:debug
 
 # Build `@rolldown/test-dev-server` itself.
 build-rolldown-test-dev-server:
@@ -208,18 +208,18 @@ build-rolldown-test-dev-server:
 
 # Build `rolldown` located in `packages/rolldown` itself and its `.wasm` binding for WASI.
 build-rolldown-wasi:
-  vp run --filter rolldown build-wasi:debug
+  vp run --filter @rsvelte/rolldown build-wasi:debug
 
 # Build `rolldown` located in `packages/rolldown` itself and its `.node` binding in release mode.
 build-rolldown-release:
-  vp run --filter rolldown build-native:release
+  vp run --filter @rsvelte/rolldown build-native:release
 
 # Build `rolldown` located in `packages/rolldown` itself and its `.node` binding in profile mode.
 build-rolldown-profile:
-  vp run --filter rolldown build-native:profile
+  vp run --filter @rsvelte/rolldown build-native:profile
 
 build-rolldown-memory-profile:
-  vp run --filter rolldown build-native:memory-profile
+  vp run --filter @rsvelte/rolldown build-native:memory-profile
 
 # Build `@rolldown/browser` located in `packages/browser` itself and its `.wasm` binding.
 build-browser:

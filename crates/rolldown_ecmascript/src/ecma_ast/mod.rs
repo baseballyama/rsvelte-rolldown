@@ -21,6 +21,8 @@ pub use helpers::semantic_builder_for_transform;
 pub struct EcmaAst {
   pub program: ProgramCell,
   pub source_type: SourceType,
+  // Native builders may need a lifetime owner before the transformed source is available.
+  pub(crate) source_override: Option<ArcStr>,
 }
 
 impl EcmaAst {
@@ -39,11 +41,36 @@ impl EcmaAst {
       let program = builder(&owner.allocator);
       ProgramCellDependent { program }
     });
-    EcmaAst { program, source_type: SourceType::default().with_module(true) }
+    EcmaAst { program, source_type: SourceType::default().with_module(true), source_override: None }
+  }
+
+  pub fn try_from_allocator_and_source<F>(
+    source: ArcStr,
+    allocator: Allocator,
+    builder: F,
+  ) -> Option<Self>
+  where
+    F: for<'a> FnOnce(&'a str, &'a Allocator) -> Option<Program<'a>>,
+  {
+    let program = ProgramCell::try_new(ProgramCellOwner { source, allocator }, |owner| {
+      builder(&owner.source, &owner.allocator)
+        .map(|program| ProgramCellDependent { program })
+        .ok_or(())
+    })
+    .ok()?;
+    Some(EcmaAst {
+      program,
+      source_type: SourceType::default().with_module(true),
+      source_override: None,
+    })
   }
 
   pub fn source(&self) -> &ArcStr {
-    &self.program.borrow_owner().source
+    self.source_override.as_ref().unwrap_or(&self.program.borrow_owner().source)
+  }
+
+  pub fn set_source(&mut self, source: ArcStr) {
+    self.source_override = Some(source);
   }
 
   pub fn program(&self) -> &Program<'_> {
@@ -69,7 +96,7 @@ impl EcmaAst {
         ProgramCellDependent { program }
       },
     );
-    EcmaAst { program, source_type: self.source_type }
+    EcmaAst { program, source_type: self.source_type, source_override: None }
   }
 }
 

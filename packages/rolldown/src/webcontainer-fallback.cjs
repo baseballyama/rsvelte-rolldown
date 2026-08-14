@@ -4,10 +4,10 @@ const childProcess = require('node:child_process');
 const rolldownPkg = JSON.parse(fs.readFileSync(require.resolve('rolldown/package.json'), 'utf-8'));
 const version = rolldownPkg.version;
 const baseDir = `/tmp/rolldown-${version}`;
-const bindingEntry = `${baseDir}/node_modules/@rolldown/binding-wasm32-wasi/rolldown-binding.wasi.cjs`;
+const bindingEntry = `${baseDir}/node_modules/@rsvelte/rolldown-binding-wasm32-wasi/rolldown-binding.wasi.cjs`;
 
 if (!fs.existsSync(bindingEntry)) {
-  const bindingPkg = `@rolldown/binding-wasm32-wasi@${version}`;
+  const bindingPkg = `@rsvelte/rolldown-binding-wasm32-wasi@${version}`;
   fs.rmSync(baseDir, { recursive: true, force: true });
   fs.mkdirSync(baseDir, { recursive: true });
   // eslint-disable-next-line no-console

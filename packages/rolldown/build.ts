@@ -138,7 +138,7 @@ function withShared({
       extensions: ['.js', '.cjs', '.mjs', '.ts'],
     },
     external: [
-      /@rolldown\/binding-.*/,
+      /@rsvelte\/rolldown-binding-.*/,
       /rolldown-binding\.wasi\.cjs/,
       ...Object.keys(buildMeta.pkgJson.dependencies ?? {}),
     ],

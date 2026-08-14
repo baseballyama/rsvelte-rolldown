@@ -139,6 +139,7 @@ rolldown_plugin_isolated_declaration = { version = "1.2.4", path = "crates/rolld
 rolldown_plugin_lazy_compilation = { version = "1.2.4", path = "crates/rolldown_plugin_lazy_compilation" }
 rolldown_plugin_oxc_runtime = { version = "1.2.4", path = "crates/rolldown_plugin_oxc_runtime" }
 rolldown_plugin_replace = { version = "1.2.4", path = "crates/rolldown_plugin_replace" }
+rolldown_plugin_rsvelte = { version = "0.1.0", path = "crates/rolldown_plugin_rsvelte" }
 rolldown_plugin_utils = { version = "1.2.4", path = "crates/rolldown_plugin_utils" }
 rolldown_plugin_vite_alias = { version = "0.1.0", path = "crates/rolldown_plugin_vite_alias" }
 rolldown_plugin_vite_build_import_analysis = { version = "0.1.0", path = "crates/rolldown_plugin_vite_build_import_analysis" }
@@ -226,6 +227,7 @@ regress = "0.11.1"
 rolldown-notify = "10.5.0"
 rolldown-notify-debouncer-full = "0.7.9"
 rustc-hash = { version = "2.1.3" }
+rsvelte_core = { path = "vendor/rsvelte/crates/rsvelte_core" }
 schemars = "1.2.1"
 self_cell = "1.2.2"
 serde = { version = "1.0.228", features = ["derive"] }

@@ -28,7 +28,7 @@ pub async fn create_ecma_view(
   ctx: &mut CreateModuleContext<'_>,
   args: CreateModuleViewArgs,
 ) -> BuildResult<CreateEcmaViewReturn> {
-  let CreateModuleViewArgs { source, sourcemap_chain, hook_side_effects } = args;
+  let CreateModuleViewArgs { source, ast, sourcemap_chain, hook_side_effects } = args;
   let ParseToEcmaAstResult {
     mut ast,
     scoping,
@@ -36,7 +36,7 @@ pub async fn create_ecma_view(
     warnings,
     preserve_jsx,
     enum_member_value_map,
-  } = parse_to_ecma_ast(ctx, source).await?;
+  } = parse_to_ecma_ast(ctx, source, ast).await?;
   ctx.flat_options.set(FlatOptions::JsxPreserve, preserve_jsx);
   ctx.warnings.extend(warnings);
 
@@ -45,6 +45,7 @@ pub async fn create_ecma_view(
   let repr_name = module_id.representative_name();
   let repr_name = legitimize_identifier_name(&repr_name);
 
+  let source = ast.source().clone();
   let scan_result = ast.program.with_mut(|fields| {
     let program = &*fields.program;
     let scanner = AstScanner::new(
@@ -52,7 +53,7 @@ pub async fn create_ecma_view(
       scoping,
       &repr_name,
       ctx.resolved_id.module_def_format,
-      fields.source,
+      &source,
       &module_id,
       &program.comments,
       ctx.options,

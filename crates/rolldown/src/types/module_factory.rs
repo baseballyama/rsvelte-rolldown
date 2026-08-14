@@ -3,6 +3,7 @@ use rolldown_common::{
   FlatOptions, ModuleIdx, ModuleType, ResolvedId, SourcemapChainElement, StrOrBytes,
   side_effects::HookSideEffects,
 };
+use rolldown_ecmascript::EcmaAst;
 use rolldown_error::BuildDiagnostic;
 use rolldown_plugin::SharedPluginDriver;
 
@@ -23,6 +24,7 @@ pub struct CreateModuleContext<'a> {
 
 pub struct CreateModuleViewArgs {
   pub source: StrOrBytes,
+  pub ast: Option<EcmaAst>,
   pub sourcemap_chain: Vec<SourcemapChainElement>,
   pub hook_side_effects: Option<HookSideEffects>,
 }

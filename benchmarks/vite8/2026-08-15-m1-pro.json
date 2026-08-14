@@ -1,0 +1,1555 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-15T10:58:30.141Z",
+  "methodology": {
+    "runsPerCase": 5,
+    "warmupsPerCase": 1,
+    "measuredUnit": "production build wall-clock time, excluding Appwrite adapter-static precompression",
+    "trialOrder": "alternating; the first case is reversed between projects",
+    "installTimeIncluded": false,
+    "outputCleanup": ["build", ".svelte-kit/output"],
+    "openWebUiPyodideFetchIncluded": false,
+    "nativePathGuard": "the rsvelte case aborts if either the client or server build reaches the JavaScript Svelte compiler fallback",
+    "phaseProfiling": "benchmark-only Vite hooks partition nested Rolldown builds into exclusive scan/transform, link, generate, write, close-hook, and outside-Rolldown wall time",
+    "compilerProfiling": "official compiler calls are recorded as merged wall-clock intervals; native rsvelte records union wall time and summed worker time inside the Rust builtin",
+    "preprocessProfiling": "vite-plugin-svelte preprocess calls are recorded as wall-clock intervals and merged to avoid double-counting overlap",
+    "fixtureChanges": {
+      "open-webui": [
+        "remove warning-only onwarn callback so the native compiler path is eligible",
+        "disable sourcemaps consistently because Svelte 5.56.8 emits invalid preserved-comment output",
+        "set compilerOptions.preserveComments=false for the same upstream compiler limitation",
+        "upgrade vite-plugin-static-copy to 4.1.1",
+        "install the @internationalized/date peer required by the resolved bits-ui version",
+        "resolve the Tailwind CSS entry explicitly for Vite 8",
+        "remove three JSDoc annotations that Svelte 5.56.8 emits as Rolldown-incompatible SSR syntax"
+      ],
+      "appwrite-console": [
+        "disable the Sentry build plugin so random debug IDs do not invalidate output hashes",
+        "disable adapter-static precompression so the benchmark measures Vite and Rolldown rather than post-build gzip/Brotli generation"
+      ]
+    }
+  },
+  "versions": {
+    "vite": "8.2.1",
+    "svelte": "5.56.8",
+    "rolldown": "1.2.4",
+    "officialPlugin": "7.3.0",
+    "rsvelteRolldown": "1.2.4-rsvelte.0",
+    "rsveltePluginSourceCommit": "3c67cd091c4e4aea2d1e38066cdb7eab7b40a6dd"
+  },
+  "packageSpecs": {
+    "rolldown": "file:/var/tmp/rsvelte-vite8-no-precompress/packages/rsvelte-rolldown",
+    "plugin": "file:/var/tmp/rsvelte-vite8-no-precompress/packages/rsvelte-vite-plugin-svelte"
+  },
+  "machine": {
+    "platform": "darwin",
+    "architecture": "arm64",
+    "os": "Darwin 25.5.0 Darwin Kernel Version 25.5.0: Tue Jun  9 22:18:58 PDT 2026; root:xnu-12377.121.10~1/RELEASE_ARM64_T6000",
+    "cpu": "Apple M1 Pro",
+    "memoryBytes": 34359738368,
+    "node": "v25.7.0",
+    "npm": "11.10.1",
+    "bun": "1.3.10"
+  },
+  "projects": [
+    {
+      "id": "open-webui",
+      "name": "Open WebUI",
+      "repository": "https://github.com/open-webui/open-webui",
+      "commit": "01f4282f1ffe0d6212f58d3afbeae21fffd0c4be",
+      "svelteFiles": 650,
+      "buildCommand": "node node_modules/vite/bin/vite.js build",
+      "cases": {
+        "official": {
+          "packageResolution": {
+            "plugin": {
+              "name": "@sveltejs/vite-plugin-svelte",
+              "version": "7.3.0"
+            },
+            "rolldown": {
+              "name": "rolldown",
+              "version": "1.2.4"
+            }
+          },
+          "durationsMs": [17594.56, 17620.07, 17884.08, 17371.6, 17487.29],
+          "outputs": [
+            {
+              "files": 4770,
+              "bytes": 121617819,
+              "sha256": "5dd8b0afec3efedad2327a0e395a499d48a20d5ec07a1fc46e241705037e9326",
+              "canonical": {
+                "files": 4770,
+                "bytes": 121617819,
+                "sha256": "5dd8b0afec3efedad2327a0e395a499d48a20d5ec07a1fc46e241705037e9326"
+              }
+            },
+            {
+              "files": 4770,
+              "bytes": 121617819,
+              "sha256": "5dd8b0afec3efedad2327a0e395a499d48a20d5ec07a1fc46e241705037e9326",
+              "canonical": {
+                "files": 4770,
+                "bytes": 121617819,
+                "sha256": "5dd8b0afec3efedad2327a0e395a499d48a20d5ec07a1fc46e241705037e9326"
+              }
+            },
+            {
+              "files": 4770,
+              "bytes": 121617819,
+              "sha256": "5dd8b0afec3efedad2327a0e395a499d48a20d5ec07a1fc46e241705037e9326",
+              "canonical": {
+                "files": 4770,
+                "bytes": 121617819,
+                "sha256": "5dd8b0afec3efedad2327a0e395a499d48a20d5ec07a1fc46e241705037e9326"
+              }
+            },
+            {
+              "files": 4770,
+              "bytes": 121617819,
+              "sha256": "5dd8b0afec3efedad2327a0e395a499d48a20d5ec07a1fc46e241705037e9326",
+              "canonical": {
+                "files": 4770,
+                "bytes": 121617819,
+                "sha256": "5dd8b0afec3efedad2327a0e395a499d48a20d5ec07a1fc46e241705037e9326"
+              }
+            },
+            {
+              "files": 4770,
+              "bytes": 121617819,
+              "sha256": "5dd8b0afec3efedad2327a0e395a499d48a20d5ec07a1fc46e241705037e9326",
+              "canonical": {
+                "files": 4770,
+                "bytes": 121617819,
+                "sha256": "5dd8b0afec3efedad2327a0e395a499d48a20d5ec07a1fc46e241705037e9326"
+              }
+            }
+          ],
+          "profiles": [
+            {
+              "startedAtMs": 1786791569952,
+              "endedAtMs": 1786791587547,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 11942.62,
+                "linkMs": 637.26,
+                "generateMs": 1307.62,
+                "writeMs": 1754.12,
+                "closeHooksMs": 1298.47
+              },
+              "rolldownMeasuredMs": 16940.09,
+              "outsideMeasuredRolldownMs": 654.48,
+              "preprocessMs": 721.82,
+              "officialSvelteCompileMs": 7546.99,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:compile transform",
+                  "durationMs": 7700,
+                  "calls": 1756
+                },
+                {
+                  "label": "vite:asset load",
+                  "durationMs": 6500,
+                  "calls": 4
+                },
+                {
+                  "label": "vite:css transform",
+                  "durationMs": 2600,
+                  "calls": 49
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 9600,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": []
+            },
+            {
+              "startedAtMs": 1786791609496,
+              "endedAtMs": 1786791627118,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 12030.45,
+                "linkMs": 636.78,
+                "generateMs": 1314.15,
+                "writeMs": 1667.16,
+                "closeHooksMs": 1323.05
+              },
+              "rolldownMeasuredMs": 16971.6,
+              "outsideMeasuredRolldownMs": 648.47,
+              "preprocessMs": 712.24,
+              "officialSvelteCompileMs": 7612.16,
+              "pluginTimings": [
+                {
+                  "label": "vite:asset-import-meta-url transform",
+                  "durationMs": 2700,
+                  "calls": 2
+                },
+                {
+                  "label": "vite-plugin-svelte:compile transform",
+                  "durationMs": 7700,
+                  "calls": 1756
+                },
+                {
+                  "label": "vite:css transform",
+                  "durationMs": 2600,
+                  "calls": 49
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 9600,
+                  "calls": 1
+                },
+                {
+                  "label": "vite:asset load",
+                  "durationMs": 3700,
+                  "calls": 2
+                }
+              ],
+              "rsvelteCompile": []
+            },
+            {
+              "startedAtMs": 1786791627962,
+              "endedAtMs": 1786791645847,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 12243.42,
+                "linkMs": 676.63,
+                "generateMs": 1327.38,
+                "writeMs": 1696.43,
+                "closeHooksMs": 1303.29
+              },
+              "rolldownMeasuredMs": 17247.15,
+              "outsideMeasuredRolldownMs": 636.94,
+              "preprocessMs": 739.1,
+              "officialSvelteCompileMs": 7802.95,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:compile transform",
+                  "durationMs": 7900,
+                  "calls": 1756
+                },
+                {
+                  "label": "vite:asset load",
+                  "durationMs": 6500,
+                  "calls": 4
+                },
+                {
+                  "label": "vite:css transform",
+                  "durationMs": 2400,
+                  "calls": 49
+                },
+                {
+                  "label": "vite:asset-import-meta-url transform",
+                  "durationMs": 1200,
+                  "calls": 1
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 9700,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": []
+            },
+            {
+              "startedAtMs": 1786791668172,
+              "endedAtMs": 1786791685544,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 11845.03,
+                "linkMs": 646.65,
+                "generateMs": 1268.83,
+                "writeMs": 1668.88,
+                "closeHooksMs": 1302.44
+              },
+              "rolldownMeasuredMs": 16731.83,
+              "outsideMeasuredRolldownMs": 639.78,
+              "preprocessMs": 733.84,
+              "officialSvelteCompileMs": 7585.88,
+              "pluginTimings": [
+                {
+                  "label": "vite:asset-import-meta-url transform",
+                  "durationMs": 1600,
+                  "calls": 1
+                },
+                {
+                  "label": "vite-plugin-svelte:compile transform",
+                  "durationMs": 7700,
+                  "calls": 1756
+                },
+                {
+                  "label": "vite:css transform",
+                  "durationMs": 2200,
+                  "calls": 49
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 9400,
+                  "calls": 1
+                },
+                {
+                  "label": "vite:asset load",
+                  "durationMs": 3600,
+                  "calls": 2
+                }
+              ],
+              "rsvelteCompile": []
+            },
+            {
+              "startedAtMs": 1786791686399,
+              "endedAtMs": 1786791703887,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 11921.48,
+                "linkMs": 649.83,
+                "generateMs": 1270.07,
+                "writeMs": 1677.19,
+                "closeHooksMs": 1318.81
+              },
+              "rolldownMeasuredMs": 16837.38,
+              "outsideMeasuredRolldownMs": 649.91,
+              "preprocessMs": 727.86,
+              "officialSvelteCompileMs": 7662.22,
+              "pluginTimings": [
+                {
+                  "label": "vite:asset-import-meta-url transform",
+                  "durationMs": 3800,
+                  "calls": 3
+                },
+                {
+                  "label": "vite-plugin-svelte:compile transform",
+                  "durationMs": 7700,
+                  "calls": 1756
+                },
+                {
+                  "label": "vite:asset load",
+                  "durationMs": 2700,
+                  "calls": 2
+                },
+                {
+                  "label": "vite:css transform",
+                  "durationMs": 2400,
+                  "calls": 49
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 9400,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": []
+            }
+          ],
+          "statistics": {
+            "medianMs": 17594.56,
+            "meanMs": 17591.52,
+            "standardDeviationMs": 170.67,
+            "minMs": 17371.6,
+            "maxMs": 17884.08
+          },
+          "profileStatistics": {
+            "phases": {
+              "scanAndTransformMs": {
+                "medianMs": 11942.62,
+                "meanMs": 11996.6,
+                "standardDeviationMs": 136.82,
+                "minMs": 11845.03,
+                "maxMs": 12243.42
+              },
+              "linkMs": {
+                "medianMs": 646.65,
+                "meanMs": 649.43,
+                "standardDeviationMs": 14.53,
+                "minMs": 636.78,
+                "maxMs": 676.63
+              },
+              "generateMs": {
+                "medianMs": 1307.62,
+                "meanMs": 1297.61,
+                "standardDeviationMs": 23.86,
+                "minMs": 1268.83,
+                "maxMs": 1327.38
+              },
+              "writeMs": {
+                "medianMs": 1677.19,
+                "meanMs": 1692.76,
+                "standardDeviationMs": 32.39,
+                "minMs": 1667.16,
+                "maxMs": 1754.12
+              },
+              "closeHooksMs": {
+                "medianMs": 1303.29,
+                "meanMs": 1309.21,
+                "standardDeviationMs": 9.8,
+                "minMs": 1298.47,
+                "maxMs": 1323.05
+              }
+            },
+            "outsideMeasuredRolldown": {
+              "medianMs": 648.47,
+              "meanMs": 645.92,
+              "standardDeviationMs": 6.54,
+              "minMs": 636.94,
+              "maxMs": 654.48
+            },
+            "preprocess": {
+              "medianMs": 727.86,
+              "meanMs": 726.97,
+              "standardDeviationMs": 9.37,
+              "minMs": 712.24,
+              "maxMs": 739.1
+            },
+            "officialSvelteCompile": {
+              "medianMs": 7612.16,
+              "meanMs": 7642.04,
+              "standardDeviationMs": 88.75,
+              "minMs": 7546.99,
+              "maxMs": 7802.95
+            },
+            "rsvelteCompileWall": {
+              "medianMs": 0,
+              "meanMs": 0,
+              "standardDeviationMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            },
+            "rsvelteCompileThreadSum": {
+              "medianMs": 0,
+              "meanMs": 0,
+              "standardDeviationMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            }
+          },
+          "outputFileCountStable": true,
+          "outputByteCountStable": true,
+          "outputHashStable": true
+        },
+        "rsvelte": {
+          "packageResolution": {
+            "plugin": {
+              "name": "@rsvelte/vite-plugin-svelte",
+              "version": "0.5.0"
+            },
+            "rolldown": {
+              "name": "@rsvelte/rolldown",
+              "version": "1.2.4-rsvelte.0"
+            }
+          },
+          "durationsMs": [9689.53, 9736.86, 9894.23, 9873.07, 9566.89],
+          "outputs": [
+            {
+              "files": 4770,
+              "bytes": 121642720,
+              "sha256": "fa806f323b6447b05b3cfa4a5fc8839b37286f3a21c658f7a7180d1f1e402166",
+              "canonical": {
+                "files": 4770,
+                "bytes": 121642720,
+                "sha256": "fa806f323b6447b05b3cfa4a5fc8839b37286f3a21c658f7a7180d1f1e402166"
+              }
+            },
+            {
+              "files": 4770,
+              "bytes": 121642720,
+              "sha256": "fa806f323b6447b05b3cfa4a5fc8839b37286f3a21c658f7a7180d1f1e402166",
+              "canonical": {
+                "files": 4770,
+                "bytes": 121642720,
+                "sha256": "fa806f323b6447b05b3cfa4a5fc8839b37286f3a21c658f7a7180d1f1e402166"
+              }
+            },
+            {
+              "files": 4770,
+              "bytes": 121642720,
+              "sha256": "fa806f323b6447b05b3cfa4a5fc8839b37286f3a21c658f7a7180d1f1e402166",
+              "canonical": {
+                "files": 4770,
+                "bytes": 121642720,
+                "sha256": "fa806f323b6447b05b3cfa4a5fc8839b37286f3a21c658f7a7180d1f1e402166"
+              }
+            },
+            {
+              "files": 4770,
+              "bytes": 121642720,
+              "sha256": "fa806f323b6447b05b3cfa4a5fc8839b37286f3a21c658f7a7180d1f1e402166",
+              "canonical": {
+                "files": 4770,
+                "bytes": 121642720,
+                "sha256": "fa806f323b6447b05b3cfa4a5fc8839b37286f3a21c658f7a7180d1f1e402166"
+              }
+            },
+            {
+              "files": 4770,
+              "bytes": 121642720,
+              "sha256": "fa806f323b6447b05b3cfa4a5fc8839b37286f3a21c658f7a7180d1f1e402166",
+              "canonical": {
+                "files": 4770,
+                "bytes": 121642720,
+                "sha256": "fa806f323b6447b05b3cfa4a5fc8839b37286f3a21c658f7a7180d1f1e402166"
+              }
+            }
+          ],
+          "profiles": [
+            {
+              "startedAtMs": 1786791588433,
+              "endedAtMs": 1786791598123,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 4107.34,
+                "linkMs": 633.32,
+                "generateMs": 1296.54,
+                "writeMs": 1669.98,
+                "closeHooksMs": 1344.94
+              },
+              "rolldownMeasuredMs": 9052.11,
+              "outsideMeasuredRolldownMs": 637.41,
+              "preprocessMs": 776.34,
+              "officialSvelteCompileMs": 0,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 5500,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": [
+                {
+                  "generate": "client",
+                  "files": 878,
+                  "errors": 0,
+                  "sumMs": 1174.95,
+                  "wallMs": 446.88,
+                  "directAstFiles": 9,
+                  "nativeReparseFiles": 869
+                },
+                {
+                  "generate": "server",
+                  "files": 878,
+                  "errors": 0,
+                  "sumMs": 582.3,
+                  "wallMs": 358.84,
+                  "directAstFiles": 0,
+                  "nativeReparseFiles": 0
+                }
+              ]
+            },
+            {
+              "startedAtMs": 1786791598962,
+              "endedAtMs": 1786791608700,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 4133.63,
+                "linkMs": 632.11,
+                "generateMs": 1309.65,
+                "writeMs": 1685.82,
+                "closeHooksMs": 1350.43
+              },
+              "rolldownMeasuredMs": 9111.64,
+              "outsideMeasuredRolldownMs": 625.23,
+              "preprocessMs": 818.25,
+              "officialSvelteCompileMs": 0,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 5600,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": [
+                {
+                  "generate": "client",
+                  "files": 878,
+                  "errors": 0,
+                  "sumMs": 1296.25,
+                  "wallMs": 463.38,
+                  "directAstFiles": 9,
+                  "nativeReparseFiles": 869
+                },
+                {
+                  "generate": "server",
+                  "files": 878,
+                  "errors": 0,
+                  "sumMs": 602.58,
+                  "wallMs": 345.59,
+                  "directAstFiles": 0,
+                  "nativeReparseFiles": 0
+                }
+              ]
+            },
+            {
+              "startedAtMs": 1786791646715,
+              "endedAtMs": 1786791656611,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 4153.39,
+                "linkMs": 632.78,
+                "generateMs": 1307.11,
+                "writeMs": 1657.74,
+                "closeHooksMs": 1501.8
+              },
+              "rolldownMeasuredMs": 9252.83,
+              "outsideMeasuredRolldownMs": 641.4,
+              "preprocessMs": 799.79,
+              "officialSvelteCompileMs": 0,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 5700,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": [
+                {
+                  "generate": "client",
+                  "files": 878,
+                  "errors": 0,
+                  "sumMs": 1211.9,
+                  "wallMs": 472.77,
+                  "directAstFiles": 9,
+                  "nativeReparseFiles": 869
+                },
+                {
+                  "generate": "server",
+                  "files": 878,
+                  "errors": 0,
+                  "sumMs": 607.7,
+                  "wallMs": 356.02,
+                  "directAstFiles": 0,
+                  "nativeReparseFiles": 0
+                }
+              ]
+            },
+            {
+              "startedAtMs": 1786791657459,
+              "endedAtMs": 1786791667332,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 4183.38,
+                "linkMs": 659.23,
+                "generateMs": 1300.08,
+                "writeMs": 1690.64,
+                "closeHooksMs": 1395.94
+              },
+              "rolldownMeasuredMs": 9229.26,
+              "outsideMeasuredRolldownMs": 643.81,
+              "preprocessMs": 749.73,
+              "officialSvelteCompileMs": 0,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 5600,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": [
+                {
+                  "generate": "client",
+                  "files": 878,
+                  "errors": 0,
+                  "sumMs": 1110.16,
+                  "wallMs": 488.32,
+                  "directAstFiles": 9,
+                  "nativeReparseFiles": 869
+                },
+                {
+                  "generate": "server",
+                  "files": 878,
+                  "errors": 0,
+                  "sumMs": 611.98,
+                  "wallMs": 372.5,
+                  "directAstFiles": 0,
+                  "nativeReparseFiles": 0
+                }
+              ]
+            },
+            {
+              "startedAtMs": 1786791704747,
+              "endedAtMs": 1786791714315,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 4011.34,
+                "linkMs": 645.45,
+                "generateMs": 1272.95,
+                "writeMs": 1692.61,
+                "closeHooksMs": 1317.72
+              },
+              "rolldownMeasuredMs": 8940.07,
+              "outsideMeasuredRolldownMs": 626.82,
+              "preprocessMs": 750.9,
+              "officialSvelteCompileMs": 0,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 5500,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": [
+                {
+                  "generate": "client",
+                  "files": 878,
+                  "errors": 0,
+                  "sumMs": 1232.58,
+                  "wallMs": 448.19,
+                  "directAstFiles": 9,
+                  "nativeReparseFiles": 869
+                },
+                {
+                  "generate": "server",
+                  "files": 878,
+                  "errors": 0,
+                  "sumMs": 574.91,
+                  "wallMs": 345.39,
+                  "directAstFiles": 0,
+                  "nativeReparseFiles": 0
+                }
+              ]
+            }
+          ],
+          "statistics": {
+            "medianMs": 9736.86,
+            "meanMs": 9752.12,
+            "standardDeviationMs": 121.07,
+            "minMs": 9566.89,
+            "maxMs": 9894.23
+          },
+          "profileStatistics": {
+            "phases": {
+              "scanAndTransformMs": {
+                "medianMs": 4133.63,
+                "meanMs": 4117.82,
+                "standardDeviationMs": 58.76,
+                "minMs": 4011.34,
+                "maxMs": 4183.38
+              },
+              "linkMs": {
+                "medianMs": 633.32,
+                "meanMs": 640.58,
+                "standardDeviationMs": 10.55,
+                "minMs": 632.11,
+                "maxMs": 659.23
+              },
+              "generateMs": {
+                "medianMs": 1300.08,
+                "meanMs": 1297.27,
+                "standardDeviationMs": 13.04,
+                "minMs": 1272.95,
+                "maxMs": 1309.65
+              },
+              "writeMs": {
+                "medianMs": 1685.82,
+                "meanMs": 1679.36,
+                "standardDeviationMs": 13.42,
+                "minMs": 1657.74,
+                "maxMs": 1692.61
+              },
+              "closeHooksMs": {
+                "medianMs": 1350.43,
+                "meanMs": 1382.17,
+                "standardDeviationMs": 64.88,
+                "minMs": 1317.72,
+                "maxMs": 1501.8
+              }
+            },
+            "outsideMeasuredRolldown": {
+              "medianMs": 637.41,
+              "meanMs": 634.93,
+              "standardDeviationMs": 7.57,
+              "minMs": 625.23,
+              "maxMs": 643.81
+            },
+            "preprocess": {
+              "medianMs": 776.34,
+              "meanMs": 779,
+              "standardDeviationMs": 26.93,
+              "minMs": 749.73,
+              "maxMs": 818.25
+            },
+            "officialSvelteCompile": {
+              "medianMs": 0,
+              "meanMs": 0,
+              "standardDeviationMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            },
+            "rsvelteCompileWall": {
+              "medianMs": 808.97,
+              "meanMs": 819.58,
+              "standardDeviationMs": 23.52,
+              "minMs": 793.58,
+              "maxMs": 860.82
+            },
+            "rsvelteCompileThreadSum": {
+              "medianMs": 1807.49,
+              "meanMs": 1801.06,
+              "standardDeviationMs": 60.15,
+              "minMs": 1722.14,
+              "maxMs": 1898.83
+            }
+          },
+          "outputFileCountStable": true,
+          "outputByteCountStable": true,
+          "outputHashStable": true
+        }
+      },
+      "outputsEqualAcrossCases": false,
+      "comparison": {
+        "medianSpeedup": 1.807,
+        "medianTimeReductionPercent": 44.7
+      }
+    },
+    {
+      "id": "appwrite-console",
+      "name": "Appwrite Console",
+      "repository": "https://github.com/appwrite/console",
+      "commit": "8c1b58a6d252fee7ab8798e256aad858c89dc99f",
+      "svelteFiles": 1011,
+      "buildCommand": "node build.js",
+      "cases": {
+        "official": {
+          "packageResolution": {
+            "plugin": {
+              "name": "@sveltejs/vite-plugin-svelte",
+              "version": "7.3.0"
+            },
+            "rolldown": {
+              "name": "rolldown",
+              "version": "1.2.4"
+            }
+          },
+          "durationsMs": [21331.36, 21275.89, 20921.66, 20948.45, 21386.01],
+          "outputs": [
+            {
+              "files": 1296,
+              "bytes": 55103554,
+              "sha256": "6af4310d9be554844083f6befc5dc5559dfff154e3864152a30c69f1d7292d89",
+              "canonical": {
+                "files": 1296,
+                "bytes": 55103554,
+                "sha256": "6af4310d9be554844083f6befc5dc5559dfff154e3864152a30c69f1d7292d89"
+              }
+            },
+            {
+              "files": 1296,
+              "bytes": 55103562,
+              "sha256": "ff488026b3d82321d1638ad5cc68ec87c5529d61b239de1a359e40e83607d7df",
+              "canonical": {
+                "files": 1296,
+                "bytes": 55103562,
+                "sha256": "ff488026b3d82321d1638ad5cc68ec87c5529d61b239de1a359e40e83607d7df"
+              }
+            },
+            {
+              "files": 1296,
+              "bytes": 55103554,
+              "sha256": "d0b4527a3a9e201d0cb5a4b68f6ba0700600c4e0cb3c034c5577411198b66f89",
+              "canonical": {
+                "files": 1296,
+                "bytes": 55103554,
+                "sha256": "d0b4527a3a9e201d0cb5a4b68f6ba0700600c4e0cb3c034c5577411198b66f89"
+              }
+            },
+            {
+              "files": 1296,
+              "bytes": 55103562,
+              "sha256": "a6010786c4ce3a2169da79639192c9f07a4008a6b1e2f52892ae0dfd15f6db78",
+              "canonical": {
+                "files": 1296,
+                "bytes": 55103562,
+                "sha256": "a6010786c4ce3a2169da79639192c9f07a4008a6b1e2f52892ae0dfd15f6db78"
+              }
+            },
+            {
+              "files": 1296,
+              "bytes": 55103554,
+              "sha256": "685ea2598c817355f41bb9952bd80afd58a6e1efba6494ffd94664894dffd9f7",
+              "canonical": {
+                "files": 1296,
+                "bytes": 55103554,
+                "sha256": "685ea2598c817355f41bb9952bd80afd58a6e1efba6494ffd94664894dffd9f7"
+              }
+            }
+          ],
+          "profiles": [
+            {
+              "startedAtMs": 1786791786623,
+              "endedAtMs": 1786791807955,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 17817.54,
+                "linkMs": 173.01,
+                "generateMs": 837.89,
+                "writeMs": 752.17,
+                "closeHooksMs": 876.2
+              },
+              "rolldownMeasuredMs": 20456.82,
+              "outsideMeasuredRolldownMs": 874.54,
+              "preprocessMs": 8884.65,
+              "officialSvelteCompileMs": 7200.62,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:preprocess transform",
+                  "durationMs": 9000,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-svelte:compile transform",
+                  "durationMs": 7300,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 10400,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": []
+            },
+            {
+              "startedAtMs": 1786791808271,
+              "endedAtMs": 1786791829547,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 17726.5,
+                "linkMs": 177.21,
+                "generateMs": 831.32,
+                "writeMs": 761.58,
+                "closeHooksMs": 895.75
+              },
+              "rolldownMeasuredMs": 20392.36,
+              "outsideMeasuredRolldownMs": 883.54,
+              "preprocessMs": 8942.49,
+              "officialSvelteCompileMs": 7031.56,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:preprocess transform",
+                  "durationMs": 9100,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-svelte:compile transform",
+                  "durationMs": 7100,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 10400,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": []
+            },
+            {
+              "startedAtMs": 1786791857717,
+              "endedAtMs": 1786791878640,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 17400.69,
+                "linkMs": 173.08,
+                "generateMs": 839.84,
+                "writeMs": 750.73,
+                "closeHooksMs": 882.6
+              },
+              "rolldownMeasuredMs": 20046.95,
+              "outsideMeasuredRolldownMs": 874.72,
+              "preprocessMs": 8576.98,
+              "officialSvelteCompileMs": 7063.24,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:preprocess transform",
+                  "durationMs": 8600,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-svelte:compile transform",
+                  "durationMs": 7100,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 10200,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": []
+            },
+            {
+              "startedAtMs": 1786791878952,
+              "endedAtMs": 1786791899902,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 17403.32,
+                "linkMs": 175.41,
+                "generateMs": 834.54,
+                "writeMs": 771.59,
+                "closeHooksMs": 892.35
+              },
+              "rolldownMeasuredMs": 20077.21,
+              "outsideMeasuredRolldownMs": 871.24,
+              "preprocessMs": 8605.38,
+              "officialSvelteCompileMs": 7051.64,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:preprocess transform",
+                  "durationMs": 8700,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-svelte:compile transform",
+                  "durationMs": 7100,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 10200,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": []
+            },
+            {
+              "startedAtMs": 1786791928224,
+              "endedAtMs": 1786791949611,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 17856.22,
+                "linkMs": 179.95,
+                "generateMs": 842.23,
+                "writeMs": 759.84,
+                "closeHooksMs": 894.74
+              },
+              "rolldownMeasuredMs": 20532.98,
+              "outsideMeasuredRolldownMs": 853.03,
+              "preprocessMs": 9088.04,
+              "officialSvelteCompileMs": 7069.51,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:preprocess transform",
+                  "durationMs": 9200,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-svelte:compile transform",
+                  "durationMs": 7100,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 10400,
+                  "calls": 1
+                }
+              ],
+              "rsvelteCompile": []
+            }
+          ],
+          "statistics": {
+            "medianMs": 21275.89,
+            "meanMs": 21172.67,
+            "standardDeviationMs": 197.3,
+            "minMs": 20921.66,
+            "maxMs": 21386.01
+          },
+          "profileStatistics": {
+            "phases": {
+              "scanAndTransformMs": {
+                "medianMs": 17726.5,
+                "meanMs": 17640.85,
+                "standardDeviationMs": 199.52,
+                "minMs": 17400.69,
+                "maxMs": 17856.22
+              },
+              "linkMs": {
+                "medianMs": 175.41,
+                "meanMs": 175.73,
+                "standardDeviationMs": 2.63,
+                "minMs": 173.01,
+                "maxMs": 179.95
+              },
+              "generateMs": {
+                "medianMs": 837.89,
+                "meanMs": 837.16,
+                "standardDeviationMs": 3.86,
+                "minMs": 831.32,
+                "maxMs": 842.23
+              },
+              "writeMs": {
+                "medianMs": 759.84,
+                "meanMs": 759.18,
+                "standardDeviationMs": 7.49,
+                "minMs": 750.73,
+                "maxMs": 771.59
+              },
+              "closeHooksMs": {
+                "medianMs": 892.35,
+                "meanMs": 888.33,
+                "standardDeviationMs": 7.65,
+                "minMs": 876.2,
+                "maxMs": 895.75
+              }
+            },
+            "outsideMeasuredRolldown": {
+              "medianMs": 874.54,
+              "meanMs": 871.41,
+              "standardDeviationMs": 10.06,
+              "minMs": 853.03,
+              "maxMs": 883.54
+            },
+            "preprocess": {
+              "medianMs": 8884.65,
+              "meanMs": 8819.51,
+              "standardDeviationMs": 198.06,
+              "minMs": 8576.98,
+              "maxMs": 9088.04
+            },
+            "officialSvelteCompile": {
+              "medianMs": 7063.24,
+              "meanMs": 7083.31,
+              "standardDeviationMs": 60.06,
+              "minMs": 7031.56,
+              "maxMs": 7200.62
+            },
+            "rsvelteCompileWall": {
+              "medianMs": 0,
+              "meanMs": 0,
+              "standardDeviationMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            },
+            "rsvelteCompileThreadSum": {
+              "medianMs": 0,
+              "meanMs": 0,
+              "standardDeviationMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            }
+          },
+          "outputFileCountStable": true,
+          "outputByteCountStable": false,
+          "outputHashStable": false
+        },
+        "rsvelte": {
+          "packageResolution": {
+            "plugin": {
+              "name": "@rsvelte/vite-plugin-svelte",
+              "version": "0.5.0"
+            },
+            "rolldown": {
+              "name": "@rsvelte/rolldown",
+              "version": "1.2.4-rsvelte.0"
+            }
+          },
+          "durationsMs": [13694.44, 13718, 13532.57, 13688.82, 13718.22],
+          "outputs": [
+            {
+              "files": 1297,
+              "bytes": 55490783,
+              "sha256": "3e0a6e358537e8f1bbc1e729f95e4c0ba12f51b698ca05cf916e1fc9362b4894",
+              "canonical": {
+                "files": 1297,
+                "bytes": 55490783,
+                "sha256": "3e0a6e358537e8f1bbc1e729f95e4c0ba12f51b698ca05cf916e1fc9362b4894"
+              }
+            },
+            {
+              "files": 1297,
+              "bytes": 55490783,
+              "sha256": "1b50bf0b338a56b97cbff32e2c1f9c094010596612ef9d961cab04f67ec5bf90",
+              "canonical": {
+                "files": 1297,
+                "bytes": 55490783,
+                "sha256": "1b50bf0b338a56b97cbff32e2c1f9c094010596612ef9d961cab04f67ec5bf90"
+              }
+            },
+            {
+              "files": 1297,
+              "bytes": 55490791,
+              "sha256": "2db15d138f8f4c194c9b67dbaf89f93220f1b0d803d501183f8a194b9d7359dc",
+              "canonical": {
+                "files": 1297,
+                "bytes": 55490791,
+                "sha256": "2db15d138f8f4c194c9b67dbaf89f93220f1b0d803d501183f8a194b9d7359dc"
+              }
+            },
+            {
+              "files": 1297,
+              "bytes": 55490783,
+              "sha256": "221204b40759b62fc1c008e556be7f95e2c8c82eb4ce6de52fe0a402dd85f838",
+              "canonical": {
+                "files": 1297,
+                "bytes": 55490783,
+                "sha256": "221204b40759b62fc1c008e556be7f95e2c8c82eb4ce6de52fe0a402dd85f838"
+              }
+            },
+            {
+              "files": 1297,
+              "bytes": 55490783,
+              "sha256": "60859e41ac40d49b8c8b53e91c4df667262833d779efe69c968c262eb8d4f5c9",
+              "canonical": {
+                "files": 1297,
+                "bytes": 55490783,
+                "sha256": "60859e41ac40d49b8c8b53e91c4df667262833d779efe69c968c262eb8d4f5c9"
+              }
+            }
+          ],
+          "profiles": [
+            {
+              "startedAtMs": 1786791772624,
+              "endedAtMs": 1786791786319,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 10174.15,
+                "linkMs": 178.23,
+                "generateMs": 816.38,
+                "writeMs": 741.43,
+                "closeHooksMs": 902.81
+              },
+              "rolldownMeasuredMs": 12813.01,
+              "outsideMeasuredRolldownMs": 881.43,
+              "preprocessMs": 8593.13,
+              "officialSvelteCompileMs": 0,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:preprocess transform",
+                  "durationMs": 8700,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 6500,
+                  "calls": 1
+                },
+                {
+                  "label": "vite:css transform",
+                  "durationMs": 3800,
+                  "calls": 4
+                }
+              ],
+              "rsvelteCompile": [
+                {
+                  "generate": "client",
+                  "files": 1789,
+                  "errors": 0,
+                  "sumMs": 1280.15,
+                  "wallMs": 1192.28,
+                  "directAstFiles": 715,
+                  "nativeReparseFiles": 1074
+                },
+                {
+                  "generate": "server",
+                  "files": 1789,
+                  "errors": 0,
+                  "sumMs": 849.71,
+                  "wallMs": 802.93,
+                  "directAstFiles": 0,
+                  "nativeReparseFiles": 0
+                }
+              ]
+            },
+            {
+              "startedAtMs": 1786791829862,
+              "endedAtMs": 1786791843581,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 10209.82,
+                "linkMs": 180.02,
+                "generateMs": 817.41,
+                "writeMs": 742.96,
+                "closeHooksMs": 891.57
+              },
+              "rolldownMeasuredMs": 12841.78,
+              "outsideMeasuredRolldownMs": 876.23,
+              "preprocessMs": 8638.99,
+              "officialSvelteCompileMs": 0,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:preprocess transform",
+                  "durationMs": 8700,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 6600,
+                  "calls": 1
+                },
+                {
+                  "label": "vite:css transform",
+                  "durationMs": 3800,
+                  "calls": 4
+                }
+              ],
+              "rsvelteCompile": [
+                {
+                  "generate": "client",
+                  "files": 1789,
+                  "errors": 0,
+                  "sumMs": 1275.04,
+                  "wallMs": 1153.74,
+                  "directAstFiles": 715,
+                  "nativeReparseFiles": 1074
+                },
+                {
+                  "generate": "server",
+                  "files": 1789,
+                  "errors": 0,
+                  "sumMs": 851.6,
+                  "wallMs": 815.07,
+                  "directAstFiles": 0,
+                  "nativeReparseFiles": 0
+                }
+              ]
+            },
+            {
+              "startedAtMs": 1786791843884,
+              "endedAtMs": 1786791857417,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 10033.66,
+                "linkMs": 174.57,
+                "generateMs": 810.57,
+                "writeMs": 759.4,
+                "closeHooksMs": 880.19
+              },
+              "rolldownMeasuredMs": 12658.38,
+              "outsideMeasuredRolldownMs": 874.19,
+              "preprocessMs": 8483.21,
+              "officialSvelteCompileMs": 0,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:preprocess transform",
+                  "durationMs": 8600,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 6400,
+                  "calls": 1
+                },
+                {
+                  "label": "vite:css transform",
+                  "durationMs": 3800,
+                  "calls": 4
+                }
+              ],
+              "rsvelteCompile": [
+                {
+                  "generate": "client",
+                  "files": 1789,
+                  "errors": 0,
+                  "sumMs": 1283.79,
+                  "wallMs": 1191.3,
+                  "directAstFiles": 715,
+                  "nativeReparseFiles": 1074
+                },
+                {
+                  "generate": "server",
+                  "files": 1789,
+                  "errors": 0,
+                  "sumMs": 850.8,
+                  "wallMs": 812.23,
+                  "directAstFiles": 0,
+                  "nativeReparseFiles": 0
+                }
+              ]
+            },
+            {
+              "startedAtMs": 1786791900198,
+              "endedAtMs": 1786791913888,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 10210.57,
+                "linkMs": 178.65,
+                "generateMs": 803.37,
+                "writeMs": 752.54,
+                "closeHooksMs": 892.54
+              },
+              "rolldownMeasuredMs": 12837.67,
+              "outsideMeasuredRolldownMs": 851.15,
+              "preprocessMs": 8592.96,
+              "officialSvelteCompileMs": 0,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:preprocess transform",
+                  "durationMs": 8700,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 6500,
+                  "calls": 1
+                },
+                {
+                  "label": "vite:css transform",
+                  "durationMs": 3900,
+                  "calls": 4
+                }
+              ],
+              "rsvelteCompile": [
+                {
+                  "generate": "client",
+                  "files": 1789,
+                  "errors": 0,
+                  "sumMs": 1269.4,
+                  "wallMs": 1172.1,
+                  "directAstFiles": 715,
+                  "nativeReparseFiles": 1074
+                },
+                {
+                  "generate": "server",
+                  "files": 1789,
+                  "errors": 0,
+                  "sumMs": 844.38,
+                  "wallMs": 794.09,
+                  "directAstFiles": 0,
+                  "nativeReparseFiles": 0
+                }
+              ]
+            },
+            {
+              "startedAtMs": 1786791914195,
+              "endedAtMs": 1786791927914,
+              "environments": ["client", "ssr"],
+              "phases": {
+                "scanAndTransformMs": 10192.61,
+                "linkMs": 182.68,
+                "generateMs": 829.65,
+                "writeMs": 750.85,
+                "closeHooksMs": 877.51
+              },
+              "rolldownMeasuredMs": 12833.3,
+              "outsideMeasuredRolldownMs": 884.92,
+              "preprocessMs": 8568.86,
+              "officialSvelteCompileMs": 0,
+              "pluginTimings": [
+                {
+                  "label": "vite-plugin-svelte:preprocess transform",
+                  "durationMs": 8700,
+                  "calls": 3578
+                },
+                {
+                  "label": "vite-plugin-sveltekit-compile writeBundle",
+                  "durationMs": 6600,
+                  "calls": 1
+                },
+                {
+                  "label": "vite:css transform",
+                  "durationMs": 3800,
+                  "calls": 4
+                }
+              ],
+              "rsvelteCompile": [
+                {
+                  "generate": "client",
+                  "files": 1789,
+                  "errors": 0,
+                  "sumMs": 1289.52,
+                  "wallMs": 1167.54,
+                  "directAstFiles": 715,
+                  "nativeReparseFiles": 1074
+                },
+                {
+                  "generate": "server",
+                  "files": 1789,
+                  "errors": 0,
+                  "sumMs": 847.15,
+                  "wallMs": 804.8,
+                  "directAstFiles": 0,
+                  "nativeReparseFiles": 0
+                }
+              ]
+            }
+          ],
+          "statistics": {
+            "medianMs": 13694.44,
+            "meanMs": 13670.41,
+            "standardDeviationMs": 69.95,
+            "minMs": 13532.57,
+            "maxMs": 13718.22
+          },
+          "profileStatistics": {
+            "phases": {
+              "scanAndTransformMs": {
+                "medianMs": 10192.61,
+                "meanMs": 10164.16,
+                "standardDeviationMs": 66.6,
+                "minMs": 10033.66,
+                "maxMs": 10210.57
+              },
+              "linkMs": {
+                "medianMs": 178.65,
+                "meanMs": 178.83,
+                "standardDeviationMs": 2.64,
+                "minMs": 174.57,
+                "maxMs": 182.68
+              },
+              "generateMs": {
+                "medianMs": 816.38,
+                "meanMs": 815.48,
+                "standardDeviationMs": 8.67,
+                "minMs": 803.37,
+                "maxMs": 829.65
+              },
+              "writeMs": {
+                "medianMs": 750.85,
+                "meanMs": 749.44,
+                "standardDeviationMs": 6.59,
+                "minMs": 741.43,
+                "maxMs": 759.4
+              },
+              "closeHooksMs": {
+                "medianMs": 891.57,
+                "meanMs": 888.92,
+                "standardDeviationMs": 9.16,
+                "minMs": 877.51,
+                "maxMs": 902.81
+              }
+            },
+            "outsideMeasuredRolldown": {
+              "medianMs": 876.23,
+              "meanMs": 873.58,
+              "standardDeviationMs": 11.84,
+              "minMs": 851.15,
+              "maxMs": 884.92
+            },
+            "preprocess": {
+              "medianMs": 8592.96,
+              "meanMs": 8575.43,
+              "standardDeviationMs": 51.4,
+              "minMs": 8483.21,
+              "maxMs": 8638.99
+            },
+            "officialSvelteCompile": {
+              "medianMs": 0,
+              "meanMs": 0,
+              "standardDeviationMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            },
+            "rsvelteCompileWall": {
+              "medianMs": 1972.34,
+              "meanMs": 1981.22,
+              "standardDeviationMs": 15.18,
+              "minMs": 1966.19,
+              "maxMs": 2003.53
+            },
+            "rsvelteCompileThreadSum": {
+              "medianMs": 2129.86,
+              "meanMs": 2128.31,
+              "standardDeviationMs": 8.07,
+              "minMs": 2113.78,
+              "maxMs": 2136.67
+            }
+          },
+          "outputFileCountStable": true,
+          "outputByteCountStable": false,
+          "outputHashStable": false
+        }
+      },
+      "outputsEqualAcrossCases": false,
+      "comparison": {
+        "medianSpeedup": 1.554,
+        "medianTimeReductionPercent": 35.6
+      }
+    }
+  ]
+}

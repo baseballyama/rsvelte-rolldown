@@ -51,6 +51,7 @@ pub struct ParseToEcmaAstResult {
 pub async fn parse_to_ecma_ast(
   ctx: &CreateModuleContext<'_>,
   source: StrOrBytes,
+  ast: Option<EcmaAst>,
 ) -> BuildResult<ParseToEcmaAstResult> {
   let CreateModuleContext {
     options,
@@ -80,27 +81,32 @@ pub async fn parse_to_ecma_ast(
     }
   };
 
-  let mut ecma_ast = match module_type {
-    ModuleType::Json => {
-      let json_value: serde_json::Value = serde_json::from_str(&source).map_err(|e| {
-        let line = e.line() - 1;
-        // Convert to 0-indexed column. serde_json returns 1-indexed columns (though possibly 0 in some edge cases).
-        // See: https://docs.rs/serde_json/1.0.132/serde_json/struct.Error.html#method.column
-        let column = e.column().saturating_sub(1);
-        BuildDiagnostic::json_parse(
-          resolved_id.id.as_str().into(),
-          source.as_ref().into(),
-          line,
-          column,
-          e.to_string().into(),
-        )
-      })?;
-      json_value_to_ecma_ast(&json_value)
+  let mut ecma_ast = if let Some(mut ast) = ast {
+    ast.set_source(source.clone().into());
+    ast
+  } else {
+    match module_type {
+      ModuleType::Json => {
+        let json_value: serde_json::Value = serde_json::from_str(&source).map_err(|e| {
+          let line = e.line() - 1;
+          // Convert to 0-indexed column. serde_json returns 1-indexed columns (though possibly 0 in some edge cases).
+          // See: https://docs.rs/serde_json/1.0.132/serde_json/struct.Error.html#method.column
+          let column = e.column().saturating_sub(1);
+          BuildDiagnostic::json_parse(
+            resolved_id.id.as_str().into(),
+            source.as_ref().into(),
+            line,
+            column,
+            e.to_string().into(),
+          )
+        })?;
+        json_value_to_ecma_ast(&json_value)
+      }
+      ModuleType::Dataurl | ModuleType::Base64 | ModuleType::Text => {
+        EcmaCompiler::parse_expr_as_program(resolved_id.id.as_str(), source, oxc_source_type)?
+      }
+      _ => EcmaCompiler::parse(resolved_id.id.as_str(), source, oxc_source_type)?,
     }
-    ModuleType::Dataurl | ModuleType::Base64 | ModuleType::Text => {
-      EcmaCompiler::parse_expr_as_program(resolved_id.id.as_str(), source, oxc_source_type)?
-    }
-    _ => EcmaCompiler::parse(resolved_id.id.as_str(), source, oxc_source_type)?,
   };
 
   ecma_ast = plugin_driver

@@ -29,6 +29,9 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Checkout rsvelte
+        run: git submodule update --init --depth 1 vendor/rsvelte
+
       - name: Setup Rust
         uses: oxc-project/setup-rust@3d6fb132fbe7cdcb66bf8ec193911c2945369d12 # v1.0.17
         with:

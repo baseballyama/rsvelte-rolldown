@@ -1903,6 +1903,7 @@ export type BindingBuiltinPluginName =  'builtin:bundle-analyzer'|
 'builtin:esm-external-require'|
 'builtin:isolated-declaration'|
 'builtin:replace'|
+'builtin:rsvelte'|
 'builtin:vite-alias'|
 'builtin:vite-build-import-analysis'|
 'builtin:vite-dynamic-import-vars'|
@@ -2796,6 +2797,28 @@ export interface BindingResolveOptions {
   modules?: Array<string>
   symlinks?: boolean
   yarnPnp?: boolean
+}
+
+export interface BindingRsvelteCompilerOptions {
+  dev?: boolean
+  hmr?: boolean
+  preserveComments?: boolean
+  preserveWhitespace?: boolean
+  runes?: boolean
+  discloseVersion?: boolean
+  customElement?: boolean
+  accessors?: boolean
+  immutable?: boolean
+  generate?: string
+  namespace?: string
+  name?: string
+  rootDir?: string
+}
+
+export interface BindingRsveltePluginConfig {
+  compilerOptions?: BindingRsvelteCompilerOptions
+  extensions?: Array<string>
+  emitCss?: boolean
 }
 
 export interface BindingSourcemap {
