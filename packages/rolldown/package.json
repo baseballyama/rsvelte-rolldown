@@ -1,6 +1,6 @@
 {
   "name": "@rsvelte/rolldown",
-  "version": "1.2.4-rsvelte.0",
+  "version": "1.2.4-rsvelte.1",
   "description": "Rolldown with native rsvelte compilation and direct OXC AST integration.",
   "keywords": [
     "bundler",
